@@ -17,7 +17,27 @@ app.get('/', function(req, res) {
     if(req.query.username)
     {
         rest.get('http://github.com/api/v2/json/user/show/' + req.query.username + '/following').on('complete', function(data) {
-            console.log(data);
+            var friends = {};
+            var functions = [];
+            var numcalls = data.users.length;
+            var counter = 0;
+            for(i in data.users) {
+            
+                rest.get('http://github.com/api/v2/json/user/show/' + data.users[i] + '/following').on('complete', function(newdata) {
+                    counter = counter + 1;
+                    for(j in newdata.users) {
+                        
+                        if(friends[newdata.users[j]])
+                            friends[newdata.users[j]] = friends[newdata.users[j]] + 1;
+                        else
+                            friends[newdata.users[j]] = 1;
+                    }
+                    if(counter == numcalls)
+                    {
+                        console.log(friends);
+                    }
+                });
+            }
         });
     }
     res.render('main');
