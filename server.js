@@ -1,3 +1,11 @@
+function exists(item, array) {
+    for(i in array) {
+        if(array[i] == item)
+            return true
+    }
+    return false;
+}
+
 var express = require('express');
 var http = require('http');
 var app = express.createServer();
@@ -34,7 +42,17 @@ app.get('/', function(req, res) {
                     }
                     if(counter == numcalls)
                     {
-                        console.log(friends);
+                        data.users.push(req.query.username);
+                        var realfriends = [];
+                        for(var property in friends){
+                            if(!exists(property, data.users)) {
+                                realfriends.push({
+                                    username: property,
+                                    value: friends[property]
+                                });
+                            }
+                        }
+                        console.log(realfriends);
                     }
                 });
             }
