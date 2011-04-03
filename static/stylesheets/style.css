@@ -14,3 +14,6 @@ body{
 #friends {
     margin-bottom: 10px;
 }
+a.userlink {
+    margin-right: 5px;
+}
