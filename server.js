@@ -55,7 +55,6 @@ app.get('/', function(req, res) {
                         realfriends.sort(function(a, b) {
                             return b.value - a.value;
                         });
-                        console.log(realfriends);
                         res.render('main', {
                             locals: {friends: realfriends}
                         });
@@ -64,7 +63,12 @@ app.get('/', function(req, res) {
             }
         });
     }
-    
+    else {
+        res.render('main', {
+            locals: {friends: realfriends}
+        });
+    }
+        
 });
 
 app.listen(4000);
