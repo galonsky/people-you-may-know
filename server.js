@@ -52,6 +52,9 @@ app.get('/', function(req, res) {
                                 });
                             }
                         }
+                        realfriends.sort(function(a, b) {
+                            return b.value - a.value;
+                        });
                         console.log(realfriends);
                     }
                 });
