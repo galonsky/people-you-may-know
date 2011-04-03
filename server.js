@@ -22,6 +22,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 app.get('/', function(req, res) {
+    var realfriends = [];
     if(req.query.username)
     {
         rest.get('http://github.com/api/v2/json/user/show/' + req.query.username + '/following').on('complete', function(data) {
@@ -43,7 +44,6 @@ app.get('/', function(req, res) {
                     if(counter == numcalls)
                     {
                         data.users.push(req.query.username);
-                        var realfriends = [];
                         for(var property in friends){
                             if(!exists(property, data.users)) {
                                 realfriends.push({
@@ -56,12 +56,15 @@ app.get('/', function(req, res) {
                             return b.value - a.value;
                         });
                         console.log(realfriends);
+                        res.render('main', {
+                            locals: {friends: realfriends}
+                        });
                     }
                 });
             }
         });
     }
-    res.render('main');
+    
 });
 
 app.listen(4000);
